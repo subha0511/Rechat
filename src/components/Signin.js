@@ -6,13 +6,16 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
+import { useHistory } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {Link as Linkrouter} from "react-router-dom";
+import fire from "../firebase";
+import {useRef,useState} from "react";
+import chat from "../pages/chat"
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -47,9 +50,50 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const history =useHistory();
   const classes = useStyles();
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+  const [user,setUser] = useState("");
+    const signInHandler = () => {
+      const email=emailRef.current.value
+      const password=passwordRef.current.value
+      fire.auth().signInWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    // Signed in
+    console.log(email)
+    console.log("hu;;a")
+    setUser(email)
+    console.log(email)
+
+    // ...
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+  });
+
+    if (user!=null){
+      history.push("/chat")
+    }
+    }
+    const authListener = () => {fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        setUser(user)
+        
+        // ...
+      } else {
+        // User is signed out
+        // ...
+        setUser(null)
+      }
+      console.log(user);
+    })};
 
   return (
+      <div>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -70,6 +114,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            inputRef={emailRef}
           />
           <TextField
             variant="outlined"
@@ -81,13 +126,16 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            inputRef={passwordRef}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
           <Button
-            type="submit"
+          onClick={()=>{
+              signInHandler()
+          }}
             fullWidth
             variant="contained"
             color="primary"
@@ -96,17 +144,16 @@ export default function SignIn() {
             Sign In
           </Button>
           <Grid container>
+
             <Grid item xs>
               <Link  variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-                <Linkrouter to ="./signup">
-                    <Link   variant="body2">
+                    <Link  href = "./signup" variant="body2">
                         {"Don't have an account? Sign Up"}
                     </Link>
-                </Linkrouter>
             </Grid>
           </Grid>
         </form>
@@ -115,5 +162,6 @@ export default function SignIn() {
         <Copyright />
       </Box>
     </Container>
+    </div>
   );
-}
+        }
