@@ -1,10 +1,7 @@
 import React from "react";
+import Chatbox from "../components/Chatbox/Chatbox";
 
-const  Chat = () =>{
-    return(
-        <h1>
-            Logged In
-        </h1>
-    )
-}
-export default Chat
+const Chat = () => {
+  return <Chatbox />;
+};
+export default Chat;

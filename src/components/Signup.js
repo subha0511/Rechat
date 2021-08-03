@@ -1,28 +1,28 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import {useRef} from "react";
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { useRef } from "react";
 import fire from "../firebase";
-import firebase from "firebase"
+import { useSnackbar } from "notistack";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -30,16 +30,16 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -49,23 +49,33 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-    const firstNameRef = useRef("")
-    const lastNameRef = useRef("")
-    const emailRef = useRef("")
-    const passwordRef = useRef("")
-  const signUpHandler = ()=>{
+  const firstNameRef = useRef("");
+  const lastNameRef = useRef("");
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+  const [user, setUser] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const signUpHandler = () => {
     // const firstName = firstNameRef.current.value
     // const lastName = lastNameRef.current.value
-    const email = emailRef.current.value
-    const password = passwordRef.current.value
-    console.log(email,password,process.env.React_App_apiKey)
-    fire.auth().createUserWithEmailAndPassword(email, password).then(function(value) {
-      }).catch(function(error) {
-          console.log(error);
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    fire
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+        setUser(response.user);
+        enqueueSnackbar("User Registered", "Success");
+      })
+      .catch((error) => {
+        const errorCode = error.code.substring(5);
+        const errorMessage = error.message;
+        enqueueSnackbar(errorCode, "Error");
       });
+  };
 
-
-    }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -128,10 +138,11 @@ export default function SignUp() {
                 inputRef={passwordRef}
               />
             </Grid>
-
           </Grid>
           <Button
-            onClick={()=>{signUpHandler()}}
+            onClick={() => {
+              signUpHandler();
+            }}
             fullWidth
             variant="contained"
             color="primary"
@@ -144,7 +155,6 @@ export default function SignUp() {
               <Link href="/" variant="body2">
                 Already have an account? Sign in
               </Link>
-
             </Grid>
           </Grid>
         </form>
