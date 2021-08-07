@@ -76,11 +76,13 @@ body {
   padding: 15px 20px;
   font-size: 16px;
 }
-input:focus {
+.search:focus,
+.chat-input:focus {
   outline: none;
   font-family: "Varela Round", sans-serif;
 }
-input::placeholder {
+.search::placeholder,
+.chat-input::placeholder {
   color: var(--text-muted);
   font-family: "Varela Round", sans-serif;
 }
