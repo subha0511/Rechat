@@ -15,8 +15,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import fire from "../firebase";
 import { useRef, useState } from "react";
+import { useSnackbar } from "notistack";
 import chat from "../pages/chat";
 import createPalette from "@material-ui/core/styles/createPalette";
+import { USER } from "../constants";
 
 function Copyright() {
   return (
@@ -57,6 +59,7 @@ export default function SignIn() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [user, setUser] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   const signInHandler = () => {
     const email = emailRef.current.value;
@@ -67,14 +70,21 @@ export default function SignIn() {
       .then((userCredential) => {
         // Signed in
         console.log(userCredential);
-        setUser(email);
+        setUser(userCredential.user);
+        localStorage.setItem(USER, userCredential.user);
         history.push("/chat");
+        enqueueSnackbar("Logged In", {
+          variant: "success",
+        });
         // ...
       })
       .catch((error) => {
-        var errorCode = error.code;
+        var errorCode = error.code.substring(5).replaceAll("-", " ");
         var errorMessage = error.message;
-        console.log(errorMessage);
+        console.log(errorMessage, errorCode);
+        enqueueSnackbar(errorCode[0].toUpperCase() + errorCode.slice(1), {
+          variant: "error",
+        });
       });
 
     if (user != null) {

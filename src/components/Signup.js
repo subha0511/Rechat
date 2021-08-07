@@ -13,6 +13,7 @@ import Container from "@material-ui/core/Container";
 import { useRef } from "react";
 import fire from "../firebase";
 import { useSnackbar } from "notistack";
+import { USER } from "../constants";
 
 function Copyright() {
   return (
@@ -67,12 +68,17 @@ export default function SignUp() {
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
         setUser(response.user);
-        enqueueSnackbar("User Registered", "Success");
+        localStorage.setItem(USER, response.user);
+        enqueueSnackbar("User Registered", {
+          variant: "success",
+        });
       })
       .catch((error) => {
         const errorCode = error.code.substring(5);
         const errorMessage = error.message;
-        enqueueSnackbar(errorCode, "Error");
+        enqueueSnackbar(errorCode, {
+          variant: "error",
+        });
       });
   };
 
