@@ -1,31 +1,34 @@
 import React, { useState, useRef, useEffect } from "react";
-import Divider from "@material-ui/core/Divider";
+import firebase from "firebase";
+import { getFriends, addFriend } from "../../firebase/firestore";
+
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
-import SendIcon from "@material-ui/icons/Send";
-import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { dummyData, messages as dummyMessages } from "./dummyrooms";
-import Message from "./Message";
 import Sidebar from "./Sidebar";
 import Activeroom from "./Activeroom";
 import "./chatbox.css";
 
-const Chatbox = () => {
-  const [rooms, setRooms] = useState([]);
+const db = firebase.firestore();
+
+const Chatbox = ({ user }) => {
+  const [friends, setFriends] = useState([]);
   const [room, setRoom] = useState(null);
   const [messages, setMessages] = useState([]);
-  const scrollRef = useRef(null);
-  const user = "Subhajit";
+
+  useEffect(() => {
+    var userRef = db.collection("users").doc(user.email);
+    const unsubscribe = userRef.onSnapshot((snapshot) => {
+      setFriends(snapshot.data().groups);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
       <Grid container className="container">
         <Grid item xs={3} className="sidebar">
-          <Sidebar dummyData={dummyData}></Sidebar>
+          <Sidebar dummyData={dummyData} user={user}></Sidebar>
         </Grid>
         <Grid item xs className="chat-box">
           <Activeroom
