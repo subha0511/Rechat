@@ -1,16 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import Divider from "@material-ui/core/Divider";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import SendIcon from "@material-ui/icons/Send";
-import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { dummyData, messages as dummyMessages } from "./dummyrooms";
 import Message from "./Message";
-import Sidebar from "./Sidebar";
 import "./chatbox.css";
 
 const Activeroom = ({ messages, user, room }) => {

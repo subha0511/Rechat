@@ -1,9 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
+import { addFriend } from "../../firebase/firestore";
+
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { logout } from "../../firebase/auth";
 import "./chatbox.css";
 
-const Sidebar = ({ dummyData }) => {
+const Sidebar = ({ dummyData, user }) => {
+  const inputRef = useRef("");
+
   const getRandomColorLight = (val) => {
     const color = "hsl(" + (val % 10) * 36 + ", 100%, 75%)";
     return color;
@@ -13,14 +20,29 @@ const Sidebar = ({ dummyData }) => {
     return color;
   };
 
+  const newFriend = (e) => {
+    e.preventDefault();
+    addFriend(user, inputRef.current.value);
+    inputRef.current.value = "";
+  };
+
   return (
     <>
       <div className="header">
         <Typography className="header-title">Chats.</Typography>
+        <IconButton color="secondary" onClick={logout}>
+          <ExitToAppIcon />
+        </IconButton>
       </div>
-      <div className="search-wrapper">
-        <input type="text" className="search" placeholder="Search..." />
-      </div>
+      <form className="search-wrapper" onSubmit={newFriend}>
+        <input
+          type="type"
+          ref={inputRef}
+          className="search"
+          placeholder="Search..."
+        />
+        <input type="submit" className="invisible" />
+      </form>
       <div className="room-list">
         {dummyData.map((data, index) => (
           <div key={index} className="room">

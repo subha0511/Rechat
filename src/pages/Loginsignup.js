@@ -1,18 +1,21 @@
-import React, { useState } from "react";
-import Signup from "../components/Signup";
-import Signin from "../components/Signin";
-import Chat from "../pages/chat";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "firebase/auth";
+import fire from "../firebase";
+import { useState, useEffect } from "react";
+import ChatBox from "../components/Chatbox/Chatbox";
+import { login, authListener } from "../firebase/auth";
 
 const Loginsignup = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    authListener(setUser);
+  }, []);
+
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Signin} />
-        <Route path="/signup" exact component={Signup} />
-        <Route path="/chat" exact component={Chat} />
-      </Switch>
-    </Router>
+    <div>
+      {user ? <ChatBox user={user} /> : <button onClick={login}>Google</button>}
+    </div>
   );
 };
+
 export default Loginsignup;
