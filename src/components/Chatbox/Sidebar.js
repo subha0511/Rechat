@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import "./chatbox.css";
+import Freesolo from "./search";
 
-const Sidebar = ({ dummyData }) => {
+const Sidebar = ({ dummyData, setProfile }) => {
   const getRandomColorLight = (val) => {
     const color = "hsl(" + (val % 10) * 36 + ", 100%, 75%)";
     return color;
@@ -20,6 +21,9 @@ const Sidebar = ({ dummyData }) => {
       </div>
       <div className="search-wrapper">
         <input type="text" className="search" placeholder="Search..." />
+      </div>
+      <div>
+        <Freesolo setProfile={setProfile} />
       </div>
       <div className="room-list">
         {dummyData.map((data, index) => (

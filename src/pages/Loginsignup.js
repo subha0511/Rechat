@@ -3,15 +3,15 @@ import firebase from "firebase";
 import "firebase/auth";
 import newUser from "../firestore";
 import { useState, useEffect } from "react";
-import Hero from "../pages/hero";
+import Chat from "./chat";
+
 const Loginsignup = () => {
+  console.log("Loginsignup");
   const [user, setUser] = useState(null);
   const authListener = () => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         var uid = user.uid;
-        console.log("pacah", uid);
-        console.log(user);
         setUser(uid);
       } else {
         setUser(null);
@@ -40,7 +40,7 @@ const Loginsignup = () => {
     authentication
       .then((res) => {
         if (res.additionalUserInfo.isNewUser === true) {
-          newUser(res.user.uid);
+          newUser(res.user);
         }
       })
       .catch((err) => {
@@ -48,13 +48,14 @@ const Loginsignup = () => {
       });
   };
   const signOutHandler = async () => {
+    console.log("logout");
     fire.auth().signOut();
   };
 
   return (
     <div>
       {user ? (
-        <Hero signOutHandler={signOutHandler} />
+        <Chat signOutHandler={signOutHandler} />
       ) : (
         <button onClick={() => loginHandler()}>google</button>
       )}

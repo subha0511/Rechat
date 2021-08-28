@@ -13,29 +13,38 @@ import Message from "./Message";
 import Sidebar from "./Sidebar";
 import Activeroom from "./Activeroom";
 import "./chatbox.css";
+import Profile from "../../pages/Profile";
 
-const Chatbox = () => {
+const Chatbox = ({ signOutHandler }) => {
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState(null);
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef(null);
   const user = "Subhajit";
+  const [profile, setProfile] = useState(false);
 
   return (
-    <>
-      <Grid container className="container">
-        <Grid item xs={3} className="sidebar">
-          <Sidebar dummyData={dummyData}></Sidebar>
-        </Grid>
-        <Grid item xs className="chat-box">
-          <Activeroom
-            user={user}
-            message={dummyMessages}
-            room={room}
-          ></Activeroom>
-        </Grid>
-      </Grid>
-    </>
+    <div>
+      {!profile ? (
+        <div>
+          <Grid container className="container">
+            <Grid item xs={3} className="sidebar">
+              <Sidebar dummyData={dummyData} setProfile={setProfile}></Sidebar>
+            </Grid>
+            <Grid item xs className="chat-box">
+              <Activeroom
+                user={user}
+                message={dummyMessages}
+                room={room}
+              ></Activeroom>
+            </Grid>
+          </Grid>
+          <button onClick={() => signOutHandler()}>SignOut</button>)
+        </div>
+      ) : (
+        <Profile />
+      )}
+    </div>
   );
 };
 
