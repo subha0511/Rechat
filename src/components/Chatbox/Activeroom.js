@@ -21,17 +21,6 @@ const Activeroom = ({ messages, user, room }) => {
 
   return (
     <>
-      <div className="header chat-header">
-        <Avatar className="header-avatar"></Avatar>
-        <div className="chat-details">
-          <div className="grid-line">
-            <p className="chat-title">Ghughu</p>
-          </div>
-          <div className="grid-line">
-            <p className="chat-last-online">Hello This is another status</p>
-          </div>
-        </div>
-      </div>
       <div className="main-body">
         {dummyMessages.map((message, index) => (
           <Message data={message} user={user} key={index} />
