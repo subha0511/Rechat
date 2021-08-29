@@ -13,7 +13,7 @@ import Suggestions from "./Suggestions";
 const Sidebar = ({ dummyData, setProfile }) => {
   const [people, setPeople] = useState([]);
   const [open, setOpen] = useState(true);
-  let loading = useRef(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleState = () => {
     setOpen(!open);
@@ -43,23 +43,25 @@ const Sidebar = ({ dummyData, setProfile }) => {
             <div className="search-wrapper">
               <Freesolo
                 setProfile={setProfile}
-                loading={loading}
+                setLoading={setLoading}
                 setPeople={setPeople}
               />
             </div>
             <div className="email-list">
-              {loading.current ? (
-                <CircularProgress />
-              ) : people ? (
+              {loading ? (
+                <div className="center-loading">
+                  <CircularProgress color="secondary" />
+                </div>
+              ) : people.length > 0 ? (
                 <>
                   {people.map((data, index) => (
                     <Suggestions key={index} data={data} index={index} />
                   ))}
                 </>
               ) : (
-                <>
-                  <Typography variant="substitle1">Nothing to show</Typography>
-                </>
+                <div className="default-text">
+                  <Typography variant="body1">Nothing to show</Typography>
+                </div>
               )}
             </div>
             <div className="fab-wrapper">
