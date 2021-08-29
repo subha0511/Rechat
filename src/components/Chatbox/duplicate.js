@@ -5,22 +5,23 @@ import { db } from "../../firestore";
 
 const users = db.collection("users");
 
-export default function FreeSolo({ setProfile, setPeople, loading }) {
+export default function FreeSolo({ setProfile, setPeople, setLoading }) {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
-    loading.current = true;
-    if (inputValue === "") {
-      loading.current = false;
-      setPeople([]);
-      return;
-    }
+    setLoading(true);
+
     const fetchOptions = async () => {
+      if (inputValue === "") {
+        setPeople([]);
+        setLoading(false);
+        return;
+      }
       users
         .orderBy("email")
         .startAt(inputValue)
         .endAt(inputValue + "\uf8ff")
-        .limit(2)
+        .limit(5)
         .get()
         .then((querySnapshot) => {
           let suggestions = [];
@@ -28,12 +29,13 @@ export default function FreeSolo({ setProfile, setPeople, loading }) {
             suggestions.push(doc.data().email);
           });
           setPeople(suggestions);
-          loading.current = false;
+          setLoading(false);
         });
     };
     const timer = setTimeout(() => {
       fetchOptions();
     }, 500);
+
     return () => {
       clearTimeout(timer);
     };
