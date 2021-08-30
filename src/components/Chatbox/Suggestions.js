@@ -10,7 +10,7 @@ const getRandomColorLight = (val) => {
   return color;
 };
 
-const Suggestions = ({ data, index }) => {
+const Suggestions = ({ data, index, setProfile }) => {
   return (
     <>
       <Grid container className="suggestion-wrapper">
@@ -18,7 +18,7 @@ const Suggestions = ({ data, index }) => {
           <Typography variant="body1">{data}</Typography>
         </Grid>
         <Grid item xs={2} className="open-profile">
-          <IconButton>
+          <IconButton onClick={() => setProfile(data)}>
             <KeyboardArrowRightOutlinedIcon
               style={{ fontSize: 40, color: getRandomColorLight(index) }}
             />

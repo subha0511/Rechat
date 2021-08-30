@@ -3,9 +3,13 @@ import Grid from "@material-ui/core/Grid";
 import { dummyData, messages as dummyMessages } from "./dummyrooms";
 import Sidebar from "./Sidebar";
 import Activeroom from "./Activeroom";
-import Header from "./Header";
+import Header from "./Header/Header";
 import "./chatbox.css";
 import Profile from "../../pages/Profile";
+
+import { db } from "../../firestore";
+
+const users = db.collection("users");
 
 const Chatbox = ({ signOutHandler }) => {
   const [rooms, setRooms] = useState([]);
@@ -20,7 +24,7 @@ const Chatbox = ({ signOutHandler }) => {
       <div>
         <Grid container className="container">
           <Grid item xs={12}>
-            <Header dummyData={dummyData} />
+            <Header dummyData={dummyData} signOutHandler={signOutHandler} />
           </Grid>
           <Grid item xs={3} className="sidebar">
             <Sidebar dummyData={dummyData} setProfile={setProfile}></Sidebar>
