@@ -41,11 +41,7 @@ const Sidebar = ({ dummyData, setProfile }) => {
         ) : (
           <>
             <div className="search-wrapper">
-              <Freesolo
-                setProfile={setProfile}
-                setLoading={setLoading}
-                setPeople={setPeople}
-              />
+              <Freesolo setLoading={setLoading} setPeople={setPeople} />
             </div>
             <div className="email-list">
               {loading ? (
@@ -55,7 +51,12 @@ const Sidebar = ({ dummyData, setProfile }) => {
               ) : people.length > 0 ? (
                 <>
                   {people.map((data, index) => (
-                    <Suggestions key={index} data={data} index={index} />
+                    <Suggestions
+                      key={index}
+                      data={data}
+                      setProfile={setProfile}
+                      index={index}
+                    />
                   ))}
                 </>
               ) : (

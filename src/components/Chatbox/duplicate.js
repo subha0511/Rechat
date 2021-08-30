@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { db } from "../../firestore";
 
