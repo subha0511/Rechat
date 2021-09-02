@@ -11,8 +11,7 @@ const Loginsignup = () => {
   const authListener = () => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
-        var uid = user.uid;
-        setUser(uid);
+        setUser(user);
       } else {
         setUser(null);
       }
@@ -55,7 +54,11 @@ const Loginsignup = () => {
   return (
     <div>
       {user ? (
-        <Chat signOutHandler={signOutHandler} />
+        <Chat
+          signOutHandler={signOutHandler}
+          user={user}
+          // allUserData={allUserData}
+        />
       ) : (
         <button onClick={() => loginHandler()}>google</button>
       )}

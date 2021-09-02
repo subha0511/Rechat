@@ -6,11 +6,11 @@ import AddIcon from "@material-ui/icons/Add";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import "./chatbox.css";
-import Freesolo from "./duplicate";
+import Freesolo from "./search";
 import RoomDetails from "./RoomDisplay";
 import Suggestions from "./Suggestions";
 
-const Sidebar = ({ dummyData, setProfile }) => {
+const Sidebar = ({ user, dummyData, setProfile }) => {
   const [people, setPeople] = useState([]);
   const [open, setOpen] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -41,14 +41,16 @@ const Sidebar = ({ dummyData, setProfile }) => {
         ) : (
           <>
             <div className="search-wrapper">
-              <Freesolo setLoading={setLoading} setPeople={setPeople} />
+              <Freesolo
+                user={user}
+                loading={loading}
+                setPeople={setPeople}
+                setProfile={setProfile}
+                setLoading={setLoading}
+              />
             </div>
             <div className="email-list">
-              {loading ? (
-                <div className="center-loading">
-                  <CircularProgress color="secondary" />
-                </div>
-              ) : people.length > 0 ? (
+              {people ? (
                 <>
                   {people.map((data, index) => (
                     <Suggestions
