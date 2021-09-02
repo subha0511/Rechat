@@ -1,11 +1,11 @@
 import fire from "./firebase";
 import firebase from "firebase";
-console.log("hachibi");
+
 export let db = fire.firestore();
+
+const userRef = db.collection("users");
+
 const newUser = async (user) => {
-  const userRef = db.collection("users");
-  const groupsRef = db.collection("groups");
-  // const messagesRef=db.collection("messages")
   const email = user.email;
   const displayName = user.displayName;
   const photoURL = user.photoURL;

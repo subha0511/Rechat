@@ -3,16 +3,15 @@ import firebase from "firebase";
 import "firebase/auth";
 import newUser from "../firestore";
 import { useState, useEffect } from "react";
-import Chat from "./chat";
+import Chatbox from "../components/Chatbox/Chatbox";
 
 const Loginsignup = () => {
-  console.log("Loginsignup");
   const [user, setUser] = useState(null);
+
   const authListener = () => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
-        var uid = user.uid;
-        setUser(uid);
+        setUser(user);
       } else {
         setUser(null);
       }
@@ -34,6 +33,7 @@ const Loginsignup = () => {
         return err;
       });
   };
+
   const loginHandler = async () => {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const authentication = googleAuth(googleProvider);
@@ -48,14 +48,13 @@ const Loginsignup = () => {
       });
   };
   const signOutHandler = async () => {
-    console.log("logout");
     fire.auth().signOut();
   };
 
   return (
     <div>
       {user ? (
-        <Chat signOutHandler={signOutHandler} />
+        <Chatbox signOutHandler={signOutHandler} user={user} />
       ) : (
         <button onClick={() => loginHandler()}>google</button>
       )}
