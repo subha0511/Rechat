@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { Grid, Typography } from "@material-ui/core";
+import React from "react";
 
 const Message = ({ data, user }) => {
   return (
     <>
       <div
         className={`message-wrapper ${
-          user === data.sender ? "sent" : "received"
+          user.displayName === data.sender ? "sent" : "received"
         }`}
       >
         <p className="message">{data.message}</p>

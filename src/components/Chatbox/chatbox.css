@@ -34,6 +34,9 @@ body {
   width: 100%;
   position: relative;
 }
+.invisible {
+  display: none;
+}
 .sidebar {
   min-width: 350px;
   background-color: var(--dark-bg);
@@ -61,6 +64,9 @@ body {
 .sidebar-header {
   min-width: 350px;
   border-right: 1px solid var(--divider-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .header-title {
@@ -182,6 +188,14 @@ body {
 }
 .header-avatar {
   margin: 0 20px 0 5px;
+  background: linear-gradient(
+    -45deg,
+    hsl(173, 100%, 45%),
+    hsl(82, 56%, 45%),
+    hsl(196, 72%, 45%),
+    hsl(166, 72%, 45%)
+  );
+  background-size: 400% 400%;
 }
 .chat-title {
   color: var(--light-text);
@@ -251,7 +265,6 @@ body {
 
 .chat-input {
   flex: 1;
-  margin: 0 20px 0 0;
   color: var(--light-text);
   border: 1px solid var(--light-bg);
   border-radius: 20px;

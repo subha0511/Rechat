@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
-import { db } from "../../firestore";
+import { db } from "../../../firestore";
 
 const users = db.collection("users");
 
-export default function FreeSolo({ setProfile, setPeople, setLoading }) {
+export default function SearchFriend({ setProfile, setPeople, setLoading }) {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
