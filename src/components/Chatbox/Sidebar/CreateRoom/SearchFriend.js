@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import { db } from "../../../firestore";
+import { db } from "../../../../firestore";
 
 const users = db.collection("users");
 
-export default function SearchFriend({ setProfile, setPeople, setLoading }) {
+export default function SearchFriend({ setPeople, setLoading, user }) {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
@@ -18,6 +18,7 @@ export default function SearchFriend({ setProfile, setPeople, setLoading }) {
       }
       users
         .orderBy("email")
+        .where("email", "!=", user.email)
         .startAt(inputValue)
         .endAt(inputValue + "\uf8ff")
         .limit(5)

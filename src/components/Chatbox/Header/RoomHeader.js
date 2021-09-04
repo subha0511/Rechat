@@ -13,9 +13,9 @@ const RoomHeader = ({ room }) => {
         <div className="grid-line">
           <p className="chat-title">{room.name}</p>
         </div>
-        <div className="grid-line">
+        {/* <div className="grid-line">
           <p className="chat-last-online">{formatDate(room.lastUpdated)}</p>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/grid";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowRightOutlinedIcon from "@material-ui/icons/KeyboardArrowRightOutlined";
-import "../chatbox.css";
+import "../../chatbox.css";
 
 const getRandomColorLight = (val) => {
   const color = "hsl(" + (val % 10) * 36 + ", 100%, 75%)";

@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
-import { dummyData, messages as dummyMessages } from "./dummyrooms";
 import Sidebar from "./Sidebar/Sidebar";
-import Activeroom from "./Sidebar/Activeroom";
+import Activeroom from "./Sidebar/Rooms/Activeroom";
 import Header from "./Header/Header";
 import "./chatbox.css";
 
@@ -59,12 +58,13 @@ const Chatbox = ({ signOutHandler, user }) => {
       .collection("messages");
     const unsubscribe = messageRef
       .orderBy("timestamp", "desc")
+      .limit(50)
       .onSnapshot((querySnapshot) => {
         const mssgs = [];
         querySnapshot.forEach((doc) => {
-          messageRef.push(doc);
+          mssgs.push(doc.data());
         });
-        setMessages(mssgs);
+        setMessages(mssgs.reverse());
       });
 
     return () => unsubscribe();
@@ -82,10 +82,15 @@ const Chatbox = ({ signOutHandler, user }) => {
               rooms={rooms}
               setProfile={setProfile}
               setRoom={setRoom}
+              user={user}
             ></Sidebar>
           </Grid>
           <Grid item xs className="chat-box">
-            <Activeroom message={messages} room={room}></Activeroom>
+            <Activeroom
+              messages={messages}
+              room={room}
+              user={user}
+            ></Activeroom>
           </Grid>
         </Grid>
       </div>
