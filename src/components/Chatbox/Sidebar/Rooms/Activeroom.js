@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import SendIcon from "@material-ui/icons/Send";
 import Message from "./Message";
-import "../chatbox.css";
+import "../../chatbox.css";
+import { db } from "../../../../firestore";
+import firebase from "firebase";
 
 const Activeroom = ({ messages, user, room }) => {
   const scrollRef = useRef(null);
@@ -10,15 +12,23 @@ const Activeroom = ({ messages, user, room }) => {
 
   const addMessage = (e) => {
     e.preventDefault();
-
+    db.collection("groups").doc(room.uid).collection("messages").add({
+      message: inputRef.current.value,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      senderId: user.displayName,
+    });
+    db.collection("groups").doc(room.uid).update({
+      lastMessage: inputRef.current.value,
+      lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+    });
     inputRef.current.value = "";
   };
 
   useEffect(() => {
-    if (room) {
+    if (messages) {
       scrollRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }, [room]);
+  }, [messages]);
 
   return (
     <>

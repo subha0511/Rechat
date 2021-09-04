@@ -215,7 +215,7 @@ body {
     rgba(18, 48, 65, 0.3) 0px 18px 36px -18px inset;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0px;
 }
 
 .main-body::-webkit-scrollbar {
@@ -237,12 +237,25 @@ body {
   height: fit-content;
   padding: 12px 15px;
   border-radius: 20px;
-  display: flex;
-  align-items: center;
   color: var(--light-text);
   font-size: 13px;
   font-family: Poppins, sans-serif;
   font-weight: 300;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.message-timestamp {
+  font-size: 12px;
+  width: 100%;
+  margin: 10px 0 5px;
+  color: rgb(155, 155, 155);
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
 }
 .received {
   border-top-left-radius: 0;
