@@ -73,6 +73,21 @@ body {
   color: var(--light-text);
   font-family: "Varela Round", sans-serif !important;
   font-size: 28px !important;
+  flex: 1;
+}
+
+.friend-request-wrapper {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.friend-request-title {
+  font-size: 23px;
+  color: var(--light-text);
+  text-align: center;
 }
 
 .search-wrapper {
@@ -151,7 +166,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
-  padding: 0 5px;
+  padding: 0 8px;
 }
 
 .grid-line {
