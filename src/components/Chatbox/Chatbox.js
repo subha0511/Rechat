@@ -29,9 +29,14 @@ const Chatbox = ({ signOutHandler, user }) => {
   const [room, setRoom] = useState(null);
   const [messages, setMessages] = useState([]);
   const [profile, setProfile] = useState(false);
+  const [notification, setNotification] = useState(false);
 
   const userRef = db.collection("users").doc(user.email);
   const groupRef = db.collection("groups");
+
+  const toggleNotification = () => {
+    setNotification(!notification);
+  };
 
   useEffect(() => {
     const unsubscribe = groupRef
@@ -75,7 +80,11 @@ const Chatbox = ({ signOutHandler, user }) => {
       <div>
         <Grid container className="container">
           <Grid item xs={12}>
-            <Header room={room} signOutHandler={signOutHandler} />
+            <Header
+              room={room}
+              signOutHandler={signOutHandler}
+              toggleNotification={toggleNotification}
+            />
           </Grid>
           <Grid item xs={3} className="sidebar">
             <Sidebar
@@ -83,6 +92,7 @@ const Chatbox = ({ signOutHandler, user }) => {
               setProfile={setProfile}
               setRoom={setRoom}
               user={user}
+              notification={notification}
             ></Sidebar>
           </Grid>
           <Grid item xs className="chat-box">

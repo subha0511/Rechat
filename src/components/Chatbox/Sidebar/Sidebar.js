@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import "../chatbox.css";
 import Rooms from "./Rooms/Rooms";
 import CreateRoom from "./CreateRoom/CreateRoom";
+import Notifications from "./Notifications/Notifications";
 
-const Sidebar = ({ rooms, setProfile, setRoom, user }) => {
+const Sidebar = ({ rooms, setProfile, setRoom, user, notification }) => {
   const [open, setOpen] = useState(true);
-  const [loading, setLoading] = useState(false);
 
   const toggleState = () => {
     setOpen(!open);
@@ -15,14 +15,26 @@ const Sidebar = ({ rooms, setProfile, setRoom, user }) => {
   return (
     <>
       <div className="wrapper">
-        {open ? (
-          <Rooms rooms={rooms} setRoom={setRoom} toggleState={toggleState} />
+        {notification ? (
+          <>
+            <Notifications user={user} />
+          </>
         ) : (
-          <CreateRoom
-            setProfile={setProfile}
-            toggleState={toggleState}
-            user={user}
-          />
+          <>
+            {open ? (
+              <Rooms
+                rooms={rooms}
+                setRoom={setRoom}
+                toggleState={toggleState}
+              />
+            ) : (
+              <CreateRoom
+                setProfile={setProfile}
+                toggleState={toggleState}
+                user={user}
+              />
+            )}
+          </>
         )}
       </div>
     </>
