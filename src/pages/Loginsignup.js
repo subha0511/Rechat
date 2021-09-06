@@ -11,9 +11,9 @@ const Loginsignup = () => {
   const [user, setUser] = useState(null);
 
   const authListener = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setGmail(user);
+    fire.auth().onAuthStateChanged((authUser) => {
+      if (authUser) {
+        setGmail(authUser);
       } else {
         setGmail(null);
       }
@@ -66,7 +66,7 @@ const Loginsignup = () => {
 
   return (
     <div>
-      {user ? (
+      {gmail ? (
         <Chatbox signOutHandler={signOutHandler} user={user} />
       ) : (
         <button onClick={() => loginHandler()}>google</button>
