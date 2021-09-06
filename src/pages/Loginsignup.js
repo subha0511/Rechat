@@ -4,16 +4,18 @@ import "firebase/auth";
 import newUser from "../firestore";
 import { useState, useEffect } from "react";
 import Chatbox from "../components/Chatbox/Chatbox";
+import { db } from "../firestore";
 
 const Loginsignup = () => {
+  const [gmail, setGmail] = useState(null);
   const [user, setUser] = useState(null);
 
   const authListener = () => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
-        setUser(user);
+        setGmail(user);
       } else {
-        setUser(null);
+        setGmail(null);
       }
     });
   };
@@ -21,6 +23,17 @@ const Loginsignup = () => {
   useEffect(() => {
     authListener();
   }, []);
+
+  useEffect(() => {
+    if (!gmail) {
+      return;
+    }
+    db.collection("users")
+      .doc(gmail.email)
+      .onSnapshot((doc) => {
+        setUser(doc.data());
+      });
+  }, [gmail]);
 
   const googleAuth = async (provider) => {
     return fire

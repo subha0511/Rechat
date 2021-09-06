@@ -60,6 +60,12 @@ body {
   padding: 10px 20px;
   background-color: var(--light-bg);
 }
+.no-noti {
+  color: aquamarine;
+}
+.new-noti {
+  animation: blink 1s ease infinite alternate;
+}
 
 .sidebar-header {
   min-width: 350px;
@@ -90,6 +96,9 @@ body {
   text-align: center;
 }
 
+.unseen {
+  border-left: 4px solid aqua;
+}
 .search-wrapper {
   border-bottom: 1px solid var(--divider-color-dark);
   width: 100%;
@@ -154,6 +163,7 @@ body {
   border-bottom: 1px solid var(--divider-color-dark);
   display: flex;
   flex-wrap: nowrap;
+  align-items: center;
 }
 
 .sidebar-avatar {
@@ -316,11 +326,9 @@ body {
 
 #add-icon {
   background-color: rgb(30, 151, 83);
-  backdrop-filter: blur(3px);
 }
 #chat-icon {
   background-color: rgb(226, 55, 55);
-  backdrop-filter: blur(3px);
 }
 
 .suggestion-wrapper {
@@ -332,6 +340,9 @@ body {
   border-radius: 8px;
   margin: 8px;
   background-color: var(--light-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .open-profile {
@@ -353,4 +364,13 @@ body {
   align-items: center;
   justify-content: center;
   height: 25vh;
+}
+
+@keyframes blink {
+  0% {
+    color: rgb(103, 128, 121);
+  }
+  100% {
+    color: rgb(0, 255, 98);
+  }
 }

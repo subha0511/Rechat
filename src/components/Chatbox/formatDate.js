@@ -9,6 +9,8 @@ const formatDate = (data) => {
   //   day: "numeric",
   // });
   const strTime = date.toLocaleTimeString([], {
+    day: "numeric",
+    month: "short",
     hour: "2-digit",
     minute: "2-digit",
   });

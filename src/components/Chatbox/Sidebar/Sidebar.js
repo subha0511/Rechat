@@ -41,4 +41,4 @@ const Sidebar = ({ rooms, setProfile, setRoom, user, notification }) => {
   );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);

@@ -26,7 +26,13 @@ export default function SearchFriend({ setPeople, setLoading, user }) {
         .then((querySnapshot) => {
           let suggestions = [];
           querySnapshot.forEach((doc) => {
-            suggestions.push(doc.data().email);
+            if (
+              !user.friends.includes(doc.data().email) &&
+              !user.sentRequest.includes(doc.data().email) &&
+              !user.friendRequest[doc.data().email]
+            ) {
+              suggestions.push(doc.data().email);
+            }
           });
           setPeople(suggestions);
           setLoading(false);
@@ -39,7 +45,7 @@ export default function SearchFriend({ setPeople, setLoading, user }) {
     return () => {
       clearTimeout(timer);
     };
-  }, [inputValue]);
+  }, [inputValue, user]);
 
   return (
     <>
