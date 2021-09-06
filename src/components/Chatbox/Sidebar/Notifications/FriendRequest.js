@@ -16,26 +16,11 @@ const getRandomColorDark = (val = Math.random() * 10) => {
   return color;
 };
 
-const FriendRequest = ({
-  request,
-  requests,
-  setRequests,
-  setUpdate,
-  friend,
-  user,
-}) => {
-  const changeSeen = () => {
-    if (!request.seen) {
-      request.seen = true;
-      const newRequests = { ...requests };
-      newRequests[friend] = request;
-      setRequests(newRequests);
-      setUpdate(true);
-    }
-  };
+const FriendRequest = ({ request, requests, friend, user }) => {
+  let userRef = db.collection("users").doc(user.email);
+  let reqRef = db.collection("users").doc(friend);
 
   const addFriendHandler = () => {
-    let userRef = db.collection("users").doc(user.email);
     db.collection("groups")
       .doc()
       .set({
@@ -50,10 +35,10 @@ const FriendRequest = ({
       });
     userRef.set(
       {
+        friends: firebase.firestore.FieldValue.arrayUnion(friend),
         friendRequest: {
           [friend]: firebase.firestore.FieldValue.delete(),
         },
-        friends: firebase.firestore.FieldValue.arrayUnion(friend),
       },
       { merge: true }
     );
@@ -64,12 +49,23 @@ const FriendRequest = ({
     });
   };
 
+  const removeFriendHandler = () => {
+    userRef.set(
+      {
+        friendRequest: {
+          [friend]: firebase.firestore.FieldValue.delete(),
+        },
+      },
+      { merge: true }
+    );
+    reqRef.update({
+      sentRequest: firebase.firestore.FieldValue.arrayRemove(user.email),
+    });
+  };
+
   return (
     <>
-      <div
-        className={`room ${request.seen ? "" : "unseen"}`}
-        onClick={changeSeen}
-      >
+      <div className={`room ${request.seen ? "" : "unseen"}`}>
         <Avatar
           className="sidebar-avatar"
           style={{
@@ -93,7 +89,7 @@ const FriendRequest = ({
           </div>
         </Grid>
         <Grid container item xs>
-          <IconButton style={{ padding: "8px" }}>
+          <IconButton style={{ padding: "8px" }} onClick={removeFriendHandler}>
             <DeleteOutlineRoundedIcon color="secondary" />
           </IconButton>
         </Grid>

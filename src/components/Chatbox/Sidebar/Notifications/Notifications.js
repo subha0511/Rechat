@@ -6,27 +6,7 @@ import { db } from "../../../../firestore";
 
 const Notifications = ({ user }) => {
   const [requests, setRequests] = useState({});
-  const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-    if (update) {
-      db.collection("users")
-        .doc(user.email)
-        .update({
-          friendRequest: requests,
-        })
-        .then(() => {
-          if (mounted) {
-            setUpdate(false);
-          }
-        });
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [update]);
 
   useEffect(() => {
     setLoading(true);
@@ -60,9 +40,7 @@ const Notifications = ({ user }) => {
                 <FriendRequest
                   request={requests[`${key}`]}
                   requests={requests}
-                  setRequests={setRequests}
                   user={user}
-                  setUpdate={setUpdate}
                   friend={key}
                   key={index}
                 />
