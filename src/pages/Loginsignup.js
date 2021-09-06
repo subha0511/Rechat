@@ -66,7 +66,7 @@ const Loginsignup = () => {
 
   return (
     <div>
-      {gmail ? (
+      {gmail && user ? (
         <Chatbox signOutHandler={signOutHandler} user={user} />
       ) : (
         <button onClick={() => loginHandler()}>google</button>
