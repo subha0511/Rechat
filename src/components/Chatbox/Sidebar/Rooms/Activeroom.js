@@ -62,4 +62,4 @@ const Activeroom = ({ messages, user, room }) => {
   );
 };
 
-export default Activeroom;
+export default React.memo(Activeroom);

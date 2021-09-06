@@ -65,4 +65,4 @@ const Rooms = ({ rooms, setRoom, toggleState }) => {
   );
 };
 
-export default Rooms;
+export default React.memo(Rooms);

@@ -9,7 +9,7 @@ const Message = ({ data, user }) => {
           user.displayName === data.senderId ? "right" : "left"
         }`}
       >
-        {formatDate(data.timestamp)}
+        {data.timestamp}
       </p>
       <div
         className={`message-wrapper ${
@@ -22,4 +22,4 @@ const Message = ({ data, user }) => {
   );
 };
 
-export default Message;
+export default React.memo(Message);

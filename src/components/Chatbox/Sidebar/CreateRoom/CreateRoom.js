@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
@@ -34,6 +34,7 @@ const CreateRoom = ({ setProfile, toggleState, user }) => {
                 data={data}
                 setProfile={setProfile}
                 index={index}
+                user={user}
               />
             ))}
           </>

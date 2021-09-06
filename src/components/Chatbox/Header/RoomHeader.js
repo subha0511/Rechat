@@ -1,6 +1,5 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
-import { formatDate } from "../formatDate";
 import "../chatbox.css";
 
 const RoomHeader = ({ room }) => {

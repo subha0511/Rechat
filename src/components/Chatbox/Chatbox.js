@@ -4,6 +4,9 @@ import Sidebar from "./Sidebar/Sidebar";
 import Activeroom from "./Sidebar/Rooms/Activeroom";
 import Header from "./Header/Header";
 import "./chatbox.css";
+import MyProfile from "../../pages/myProfile";
+import Profile from "../../pages/othersProfile";
+import { formatDate } from "./formatDate";
 
 import { db } from "../../firestore";
 
@@ -28,10 +31,11 @@ const Chatbox = ({ signOutHandler, user }) => {
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [profile, setProfile] = useState(false);
   const [notification, setNotification] = useState(false);
+  const [myData, setMyData] = useState({ friendRequest: {} });
+  const [myProfile, setMyProfile] = useState(false);
+  const [profile, setProfile] = useState(false);
 
-  const userRef = db.collection("users").doc(user.email);
   const groupRef = db.collection("groups");
 
   const toggleNotification = () => {
@@ -67,7 +71,9 @@ const Chatbox = ({ signOutHandler, user }) => {
       .onSnapshot((querySnapshot) => {
         const mssgs = [];
         querySnapshot.forEach((doc) => {
-          mssgs.push(doc.data());
+          const data = doc.data();
+          data.timestamp = formatDate(data.timestamp);
+          mssgs.push(data);
         });
         setMessages(mssgs.reverse());
       });
@@ -77,33 +83,53 @@ const Chatbox = ({ signOutHandler, user }) => {
 
   return (
     <div>
-      <div>
-        <Grid container className="container">
-          <Grid item xs={12}>
-            <Header
-              room={room}
-              signOutHandler={signOutHandler}
-              toggleNotification={toggleNotification}
-            />
+      {profile === false && myProfile === false ? (
+        <div>
+          <Grid container className="container">
+            <Grid item xs={12}>
+              <Header
+                room={room}
+                signOutHandler={signOutHandler}
+                toggleNotification={toggleNotification}
+                notification={notification}
+                user={user}
+              />
+            </Grid>
+            <Grid item xs={3} className="sidebar">
+              <Sidebar
+                rooms={rooms}
+                setProfile={setProfile}
+                setRoom={setRoom}
+                user={user}
+                notification={notification}
+              ></Sidebar>
+            </Grid>
+            <Grid item xs className="chat-box">
+              <Activeroom
+                messages={messages}
+                room={room}
+                user={user}
+              ></Activeroom>
+            </Grid>
           </Grid>
-          <Grid item xs={3} className="sidebar">
-            <Sidebar
-              rooms={rooms}
-              setProfile={setProfile}
-              setRoom={setRoom}
-              user={user}
-              notification={notification}
-            ></Sidebar>
-          </Grid>
-          <Grid item xs className="chat-box">
-            <Activeroom
-              messages={messages}
-              room={room}
-              user={user}
-            ></Activeroom>
-          </Grid>
-        </Grid>
-      </div>
+        </div>
+      ) : profile ? (
+        <Profile
+          profile={profile}
+          user={user}
+          setProfile={setProfile}
+          myData={myData}
+          setMyData={setMyData}
+        />
+      ) : (
+        <MyProfile
+          user={user}
+          setMyProfile={setMyProfile}
+          setProfile={setProfile}
+          myData={myData}
+          setMyData={setMyData}
+        />
+      )}
     </div>
   );
 };
