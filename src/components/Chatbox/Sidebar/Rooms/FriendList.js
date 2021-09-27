@@ -33,7 +33,9 @@ const FriendList = ({ data, index, setRoom }) => {
               <p className="room-timestamp">{formatDate(data.lastUpdated)}</p>
             </div>
             <div className="grid-line">
-              <p className="room-description">{data.lastMessage}</p>
+              <p className="room-description">
+                {data.lastMessage.substring(0, 25)}
+              </p>
             </div>
           </div>
         </div>

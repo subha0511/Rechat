@@ -269,6 +269,14 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
+  word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  line-break: anywhere;
 }
 .message-timestamp {
   font-size: 12px;

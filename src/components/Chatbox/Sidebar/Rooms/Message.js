@@ -1,5 +1,4 @@
 import React from "react";
-import { formatDate } from "../../formatDate";
 
 const Message = ({ data, user }) => {
   return (
