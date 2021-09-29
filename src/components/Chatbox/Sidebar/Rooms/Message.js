@@ -21,4 +21,4 @@ const Message = ({ data, user }) => {
   );
 };
 
-export default React.memo(Message);
+export default Message;

@@ -59,4 +59,4 @@ const Notifications = ({ user }) => {
   );
 };
 
-export default Notifications;
+export default React.memo(Notifications);
