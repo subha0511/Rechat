@@ -108,4 +108,4 @@ const FriendRequest = ({ request, requests, friend, user }) => {
   );
 };
 
-export default React.memo(FriendRequest);
+export default FriendRequest;
