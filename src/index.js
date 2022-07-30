@@ -1,13 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
-import { SnackbarProvider } from "notistack";
+import { createRoot } from "react-dom/client";
+import AuthProvider from "./context/AuthContext";
 
-ReactDOM.render(
-  <SnackbarProvider maxSnack={3}>
-    <React.StrictMode>
+const container = document.getElementById("root");
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+
+root.render(
+  <React.StrictMode>
+    <AuthProvider>
       <App />
-    </React.StrictMode>
-  </SnackbarProvider>,
-  document.getElementById("root")
+    </AuthProvider>
+  </React.StrictMode>
 );
